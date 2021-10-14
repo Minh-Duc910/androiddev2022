@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/compose"
+        android:text="@string/compose"
+        android:layout_marginTop="170dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/inbox"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:onClick="onShowInbox"
+        android:text="@string/inbox"/>
+
+    <Button
+        android:id="@+id/sent"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:onClick="onShowSent"
+        android:text="@string/sent"/>
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/smt"
+        android:text="@string/smt"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"/>
+
+
+
+</LinearLayout>
