@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <Button
         android:layout_width="130dp"
         android:layout_height="wrap_content"
@@ -36,9 +37,10 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:id="@+id/smt"
-        android:text="@string/smt"
+        android:text="@string/spam"
         android:layout_marginTop="40dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:onClick="onShowSpam"/>
 
 
 

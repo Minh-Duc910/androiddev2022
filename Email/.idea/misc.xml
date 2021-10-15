@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/activity_edetail.xml" value="0.1" />
-        <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/activity_sent.xml" value="0.10597826086956522" />
+        <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/activity_spam.xml" value="0.10104166666666667" />
+        <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/activity_spam_detail.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/fragment_e_detail.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/fragment_e_list.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/fragment_spam_detail.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Email/app/src/main/res/layout/toolbar_main.xml" value="0.10326086956521739" />
       </map>
     </option>
   </component>

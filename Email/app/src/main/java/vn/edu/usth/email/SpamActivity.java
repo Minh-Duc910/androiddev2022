@@ -1,25 +1,21 @@
 package vn.edu.usth.email;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-public class InboxActivity extends AppCompatActivity implements EListFragment.Listener{
-
+public class SpamActivity extends AppCompatActivity implements SpamListFragment.Listener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inbox);
+        setContentView(R.layout.activity_spam);
     }
-
     @Override
     public void itemClicked(long id) {
-        Intent intent = new Intent(this, EDetail.class);
-        intent.putExtra(EDetail.EXTRA_CONTENT_ID, (int)id);
+        Intent intent = new Intent(this, SpamDetail.class);
+        intent.putExtra(SpamDetail.EXTRA_SPAMCONTENT_ID, (int)id);
         startActivity(intent);
 
 
