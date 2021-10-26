@@ -2,4 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/refresh"
+        android:icon="@drawable/baseline_refresh_white_24"
+        android:orderInCategory="1"
+        android:title="@string/refresh_action"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/Setting"
+        android:icon="@drawable/baseline_settings_white_24"
+        android:orderInCategory="2"
+        android:title="@string/setting_action"
+        app:showAsAction="never"/>
+
 </menu>
