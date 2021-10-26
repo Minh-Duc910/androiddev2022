@@ -5,4 +5,14 @@
     <string name="home_tab">Home</string>
     <string name="still_home">Still Home</string>
     <string name="like_home">Looks like Home</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+    <string name="smt">Something might happen \nSomething might happen</string>
+    <string name="paris" translatable="false">Paris</string>
+    <string name="status">12:00 \nCloudy</string>
 </resources>

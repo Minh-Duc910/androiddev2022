@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dự báo thời tiết USTH</string>
+    <string name="refresh_action">Làm tươi</string>
+    <string name="setting_action">Cài đặt</string>
+    <string name="home_tab">Trang chủ</string>
+    <string name="like_home">Lại là Trang chủ</string>
+    <string name="still_home">Vẫn là Trang Chủ</string>
+    <string name="mon">Thứ 2</string>
+    <string name="tue">Thứ 3</string>
+    <string name="wed">Thứ 4</string>
+    <string name="thu">Thứ 5</string>
+    <string name="fri">Thứ 6</string>
+    <string name="sat">Thứ 7</string>
+    <string name="sun">CN</string>
+    <string name="status">12:00\nNhiều mây</string>
+    <string name="smt">Có hiện tượng lạ\nCó hiện tượng lạ</string>
+</resources>
