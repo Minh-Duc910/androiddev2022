@@ -10,15 +10,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import vn.edu.usth.email2.fragment.ChangePasswordFragment;
 import vn.edu.usth.email2.fragment.InboxFragment;
+import vn.edu.usth.email2.fragment.ProfileFragment;
 import vn.edu.usth.email2.fragment.SentFragment;
-import vn.edu.usth.email2.fragment.SpamFragment;
+import vn.edu.usth.email2.fragment.StarredFragment;
 import vn.edu.usth.email2.fragment.TrashFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -26,13 +34,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private static final int FRAGMENT_INBOX = 0;
     private static final int FRAGMENT_SENT = 1;
-    private static final int FRAGMENT_SPAM = 2;
-    private static final int FRAGMENT_TRASH = 3;
-    private static final int PROFILE = 4;
-    private static final int SETTING = 5;
-    private static final int HELP = 6;
+    private static final int FRAGMENT_STARRED = 2;
+    private static final int PROFILE = 3;
+    private static final int PW = 4;
 
     private int mCurrentFragment = FRAGMENT_INBOX;
+    private ImageView imageView;
+    private TextView tvname, tvemail;
+    private NavigationView navigationView;
 
 
 
@@ -43,17 +52,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        initUI();
+
         mDrawerLayout = findViewById(R.id.drawer);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 mDrawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav);
+        navigationView = findViewById(R.id.nav);
         navigationView.setNavigationItemSelectedListener(this);
 
         replaceFragment(new InboxFragment());
         navigationView.getMenu().findItem(R.id.inbox).setChecked(true);
+
+        information();
+    }
+
+    private void initUI() {
+        navigationView = findViewById(R.id.nav);
+        imageView = navigationView.getHeaderView(0).findViewById(R.id.dp);
+        tvname = navigationView.getHeaderView(0).findViewById(R.id.name);
+        tvemail = navigationView.getHeaderView(0).findViewById(R.id.email);
     }
 
     @Override
@@ -73,28 +93,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        if( id == R.id.spam){
-            if(mCurrentFragment != FRAGMENT_SPAM){
-                replaceFragment(new SpamFragment());
-                mCurrentFragment = FRAGMENT_SPAM;
+        if( id == R.id.starred){
+            if(mCurrentFragment != FRAGMENT_STARRED){
+                replaceFragment(new StarredFragment());
+                mCurrentFragment = FRAGMENT_STARRED;
             }
         }
 
-        if( id == R.id.trash){
-            if(mCurrentFragment != FRAGMENT_TRASH){
-                replaceFragment(new TrashFragment());
-                mCurrentFragment = FRAGMENT_TRASH;
+        if( id == R.id.password){
+            if(mCurrentFragment != PW){
+                replaceFragment(new ChangePasswordFragment());
+                mCurrentFragment = PW;
             }
         }
 
+
+        if( id == R.id.signout){
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
         if( id == R.id.profile){
+            if(mCurrentFragment != PROFILE){
+            replaceFragment(new ProfileFragment());
+            mCurrentFragment = PROFILE;
+            }
         }
 
-        if( id == R.id.setting){
-        }
-
-        if( id == R.id.help){
-        }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -115,5 +141,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content, fragment);
         transaction.commit();
+    }
+
+    public void information(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            return;
+        }else{
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            tvname.setText(name);
+            tvemail.setText(email);
+            Glide.with(this).load(photoUrl).error(R.drawable.ic_baseline_account_circle_24).into(imageView);
+        }
     }
 }

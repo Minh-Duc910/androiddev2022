@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class IbDetailActivity extends AppCompatActivity {
+public class SentDetailActivity extends AppCompatActivity {
 
     TextView icon;
-    TextView sender;
+    TextView receiver;
     TextView title;
     TextView detail;
     ImageView star;
@@ -26,27 +26,25 @@ public class IbDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ib_detail);
+        setContentView(R.layout.activity_sent_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        icon = findViewById(R.id.ic_sender);
-        sender = findViewById(R.id.ib_sender);
-        title = findViewById(R.id.ib_title);
-        detail = findViewById(R.id.ib_detail);
+        receiver = findViewById(R.id.sd_receiver);
+        title = findViewById(R.id.sd_title);
+        detail = findViewById(R.id.sd_detail);
         star = findViewById(R.id.starro);
+        icon = findViewById(R.id.ic_receiver);
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {
             icon.setText(mBundle.getString("icon"));
             ((GradientDrawable) icon.getBackground()).setColor(mBundle.getInt("colorIcon"));
-            sender.setText(mBundle.getString("sender"));
+            receiver.setText(mBundle.getString("receiver"));
             title.setText(mBundle.getString("title"));
             detail.setText(mBundle.getString("detail"));
-
-
         }
         star.setOnClickListener(new View.OnClickListener() {
             @Override

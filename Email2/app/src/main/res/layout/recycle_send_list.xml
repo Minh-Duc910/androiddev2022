@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:id="@+id/inbox_list">
+    android:id="@+id/sent_list">
 
     <TextView
-        android:id="@+id/ic_sender"
+        android:id="@+id/ic_receiver"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -16,41 +16,54 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/ib_sender"
+        android:id="@+id/to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/ic_sender"
-        android:layout_toRightOf="@+id/ic_sender"
-        android:textSize="16sp"
-        android:text="Sender" />
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/ic_receiver"
+        android:layout_toRightOf="@+id/ic_receiver"
+        android:text="To:"
+        android:textStyle="bold"
+        android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/ib_title"
+        android:id="@+id/sd_receiver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ib_sender"
-        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/to"
+        android:layout_toRightOf="@+id/to"
+        android:text="Receiver"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sd_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sd_receiver"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ic_sender"
-        android:layout_toRightOf="@+id/ic_sender"
-        android:text="Title"/>
+        android:layout_toEndOf="@+id/ic_receiver"
+        android:layout_toRightOf="@+id/ic_receiver"
+        android:text="Title" />
 
     <TextView
-        android:id="@+id/ib_detail"
+        android:id="@+id/sd_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ib_title"
-        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/sd_title"
         android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ic_sender"
-        android:layout_toRightOf="@+id/ic_sender"
+        android:layout_toEndOf="@+id/ic_receiver"
+        android:layout_toRightOf="@+id/ic_receiver"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="This is a very long text and we need to show " />
+
 
 
     <ImageView

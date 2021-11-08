@@ -8,75 +8,107 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import vn.edu.usth.email2.IbDetailActivity;
+import vn.edu.usth.email2.Messages;
 import vn.edu.usth.email2.R;
 
-public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHolder> {
 
-    private List<InboxDetail> mIbData;
-    private Context mContext;
+public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.MyViewHolder1>{
 
+    Context context;
 
-    public InboxAdapter(Context mContext, List<InboxDetail> mIbData) {
-        this.mIbData = mIbData;
-        this.mContext = mContext;
+    ArrayList<Messages> list;
+
+    private FirebaseDatabase fd;
+    private DatabaseReference fvref, sdref;
+    private FirebaseAuth auth;
+    Messages messages;
+
+    public InboxAdapter(Context context, ArrayList<Messages> list) {
+        this.context = context;
+        this.list = list;
     }
-
 
     @NonNull
     @Override
-    public InboxViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycle_inbox_list, parent, false);
-        return new InboxViewHolder(view);
+    public MyViewHolder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.recycle_inbox_list, parent, false);
+        return new MyViewHolder1(v);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull InboxViewHolder holder, int position) {
-        holder.mIbSender.setText(mIbData.get(position).getIbSender());
-        holder.mIbTitle.setText(mIbData.get(position).getIbTitle());
-        holder.mIbDetails.setText(mIbData.get(position).getIbDetails());
-        holder.mRcvTime.setText(mIbData.get(position).getRcvTime());
-        holder.mIbIcon.setText(mIbData.get(position).getIbSender().substring(0, 1));
+    public void onBindViewHolder(@NonNull InboxAdapter.MyViewHolder1 holder, int position) {
+
+
+        Messages message = list.get(position);
+        holder.sender.setText(message.getSender());
+        holder.title.setText(message.getTitle());
+        holder.detail.setText(message.getDetail());
         Random mRandom = new Random();
         int color = Color.argb(255, mRandom.nextInt(256), mRandom.nextInt(256), mRandom.nextInt(256));
-        ((GradientDrawable) holder.mIbIcon.getBackground()).setColor(color);
-        int color2 = Color.argb(255,241,181,3);
-        holder.mIbStar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ((GradientDrawable) holder.icon.getBackground()).setColor(color);
+        int color2 = Color.argb(255,245,134,15);
+        holder.icon.setText(message.getSender().substring(0, 1).toUpperCase());
+        if(message.isStarCheck()){
+            holder.star.setColorFilter(color2);
+        }
 
-                if (holder.mIbStar.getColorFilter() != null) {
-                    holder.mIbStar.clearColorFilter();
-                } else {
-                    holder.mIbStar.setColorFilter(color2);
-                }
-            }
-        });
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, IbDetailActivity.class);
-                intent.putExtra("sender",holder.mIbSender.getText().toString());
-                intent.putExtra("title",holder.mIbTitle.getText().toString());
-                intent.putExtra("detail",holder.mIbDetails.getText().toString());
-                intent.putExtra("icon",holder.mIbIcon.getText().toString());
-                intent.putExtra("time",holder.mRcvTime.getText().toString());
-                intent.putExtra("colorIcon",color);
-                mContext.startActivity(intent);
+                Intent mIntent = new Intent(context, IbDetailActivity.class);
+                mIntent.putExtra("sender", holder.sender.getText().toString());
+                mIntent.putExtra("title", holder.title.getText().toString());
+                mIntent.putExtra("detail", holder.detail.getText().toString());
+                mIntent.putExtra("icon", holder.icon.getText().toString());
+                mIntent.putExtra("colorIcon", color);
+                context.startActivity(mIntent);
+            }
+        });
+
+        holder.star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fd = FirebaseDatabase.getInstance();
+                fvref = fd.getReference().child("fav");
+                auth  = FirebaseAuth.getInstance();
+                sdref = fd.getReference().child("sent");
+
+                if (holder.star.getColorFilter() != null) {
+                    holder.star.clearColorFilter();
+
+                    sdref.setValue(messages);
+
+
+                } else {
+                    messages = new Messages();
+                    messages.setSender(message.getSender());
+                    messages.setTitle(message.getTitle());
+                    messages.setDetail(message.getDetail());
+                    messages.setReceiver(message.getReceiver());
+                    messages.setStarCheck(true);
+                    fvref.push().setValue(messages);
+
+
+                    holder.star.setColorFilter(color2);
+                }
             }
         });
 
@@ -84,31 +116,22 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
 
     @Override
     public int getItemCount() {
-        return mIbData.size();
+        return list.size();
     }
 
-    class InboxViewHolder extends RecyclerView.ViewHolder {
-
-        TextView mIbIcon;
-        TextView mIbSender;
-        TextView mIbTitle;
-        TextView mIbDetails;
-        TextView mRcvTime;
-        ImageView mIbStar;
+    public static class MyViewHolder1 extends RecyclerView.ViewHolder{
+        TextView sender, title, detail,icon;
         RelativeLayout mLayout;
+        ImageView star;
 
-        public InboxViewHolder(@NonNull View itemView) {
+        public MyViewHolder1(@NonNull View itemView){
             super(itemView);
-            mIbIcon = itemView.findViewById(R.id.ic_sender);
-            mIbSender = itemView.findViewById(R.id.ib_sender);
-            mIbTitle = itemView.findViewById(R.id.ib_title);
-            mIbDetails = itemView.findViewById(R.id.ib_detail);
-            mRcvTime = itemView.findViewById(R.id.rcv_time);
-            mIbStar = itemView.findViewById(R.id.starro);
+            star = itemView.findViewById(R.id.starro);
+            icon = itemView.findViewById(R.id.ic_sender);
+            sender = itemView.findViewById(R.id.ib_sender);
+            title = itemView.findViewById(R.id.ib_title);
+            detail = itemView.findViewById(R.id.ib_detail);
             mLayout = itemView.findViewById(R.id.inbox_list);
         }
     }
-
-
-
 }
